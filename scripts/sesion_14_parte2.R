@@ -53,9 +53,6 @@ mi_data  <- data.frame(Absoluto_1 = sample(40:80,8,replace = FALSE),
                        Absoluto_4 = sample(40:80,8,replace = FALSE))
 
 
-View(mi_data)
-
-
 nuevo_data <- function(df){
   nvo_data <- rbind(df,colSums(df))
   n_col <- ncol(nvo_data)
@@ -66,15 +63,29 @@ nuevo_data <- function(df){
   return(nvo_data)
 }
 
-nuevo_data(mi_data)
+mi_data <- nuevo_data(mi_data)
 
-x <- rbind(mi_data,colSums(mi_data))
-n_col <- ncol(x)
-for(i in c(1:n_col)){
-  x[,i+n_col] <- x[,i]*100/x[nrow(x),i]
+mi_data
+
+mis_columnas <- list()
+
+for(i in 1:n_col){
+  mis_columnas[[i]] <- cbind(mi_data[  ,c(i,n_col+i)],NA)        
 }
 
-View(x)
+# función do.call(FUN,lista) 
+# aplica la función FUN a todos los elementos de la lista
+# al mismo tiempo
+
+resultado  <- do.call(cbind,mis_columnas)
+
+getwd()
+setwd("../")
+
+write.csv(resultado,"mis_resultados.csv",na="")
+
+?write.csv
+
 
 
 
